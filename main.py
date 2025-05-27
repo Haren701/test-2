@@ -7,7 +7,7 @@ st.set_page_config(layout="wide")
 st.title("📦 배송 위치 시각화")
 
 # GitHub에 있는 CSV 파일 URL (예시로 대체)
-DATA_URL = "https://raw.githubusercontent.com/Haren701/test-2/refs/heads/main/Delivery.csv"
+DATA_URL = https://raw.githubusercontent.com/Haren701/test-2/refs/heads/main/Delivery.csv
 
 @st.cache_data
 def load_data():
