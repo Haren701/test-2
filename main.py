@@ -22,7 +22,7 @@ st.markdown(
 # -------------------
 # 데이터 불러오기
 # -------------------
-DATA_URL = DATA_URL = DATA_URL = "https://raw.githubusercontent.com/Haren701/test-2/refs/heads/main/Delivery.csv"
+DATA_URL = "https://raw.githubusercontent.com/Haren701/test-2/refs/heads/main/Delivery.csv"
 
 @st.cache_data
 def load_data():
