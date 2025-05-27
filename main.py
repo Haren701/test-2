@@ -2,21 +2,21 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+# 페이지 설정
 st.set_page_config(layout="wide")
 st.title("📦 배송 위치 시각화")
 
+# GitHub에 있는 CSV 파일 URL (예시로 대체)
+DATA_URL = "https://raw.githubusercontent.com/사용자명/저장소명/브랜치명/경로/Delivery.csv"
+
 @st.cache_data
 def load_data():
-    return pd.read_csv("Delivery.csv")
+    return pd.read_csv(DATA_URL)
 
-# 파일 업로드 또는 기본 파일 불러오기
-uploaded_file = st.file_uploader("CSV 파일 업로드", type="csv")
-if uploaded_file:
-    df = pd.read_csv(uploaded_file)
-else:
-    df = load_data()
+# 데이터 로드
+df = load_data()
 
-# 필수 컬럼 확인
+# 필수 컬럼 검사
 if "Latitude" not in df.columns or "Longitude" not in df.columns:
     st.error("❌ 필수 컬럼(Latitude, Longitude)이 누락되었습니다.")
     st.stop()
@@ -25,7 +25,7 @@ if "Latitude" not in df.columns or "Longitude" not in df.columns:
 st.subheader("🔍 데이터 미리보기")
 st.dataframe(df)
 
-# 필터: 위도/경도 범위 설정
+# 위도/경도 필터 슬라이더
 lat_range = st.slider(
     "위도 범위", float(df["Latitude"].min()), float(df["Latitude"].max()),
     (float(df["Latitude"].min()), float(df["Latitude"].max()))
@@ -41,11 +41,11 @@ filtered_df = df[
     (df["Longitude"].between(*lon_range))
 ]
 
-# 지도 중심 설정
+# 지도 중심 좌표 계산
 center_lat = filtered_df["Latitude"].mean()
 center_lon = filtered_df["Longitude"].mean()
 
-# 시각화
+# Plotly 지도 시각화
 st.subheader("🗺️ 배송 위치 지도")
 fig = px.scatter_mapbox(
     filtered_df,
@@ -58,5 +58,6 @@ fig = px.scatter_mapbox(
     title="배송 위치 분포"
 )
 fig.update_layout(mapbox_center={"lat": center_lat, "lon": center_lon})
-st.plotly_chart(fig, use_container_width=True)
 
+# 결과 출력
+st.plotly_chart(fig, use_container_width=True)
